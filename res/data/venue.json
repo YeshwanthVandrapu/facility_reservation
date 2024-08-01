@@ -1,0 +1,41 @@
+{
+    "buildings": {
+      "Academic Building": {
+        "GF": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F1": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F2": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F3": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        }
+      },
+      "New Academic Building": {
+        "GF": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F1": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F2": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        },
+        "F3": {
+          "Right Wing": ["RW1", "RW2", "RW3", "RW4"],
+          "Left Wing": ["LW1", "LW2", "LW3", "LW4"]
+        }
+      }
+    }
+  }
+  
