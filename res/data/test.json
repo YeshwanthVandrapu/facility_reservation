@@ -1,0 +1,6 @@
+{
+    "building": ["academic_building", "new_academic_building"],
+    "floor": ["GF","F1","F2","F3"],
+    "wing": ["right_wing","left_wing"],
+    "rooms":["R1","R2","R3"]
+}
