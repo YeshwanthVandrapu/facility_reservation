@@ -1,0 +1,213 @@
+
+[
+    {
+        "event_id": 2,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R1",
+        "start_time": "09:00",
+        "end_time": "10:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 3,
+        "building": "new_academic_building",
+        "floor": "F1",
+        "room_no": "R2",
+        "start_time": "10:00",
+        "end_time": "11:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 4,
+        "building": "academic_building",
+        "floor": "F2",
+        "room_no": "R3",
+        "start_time": "11:00",
+        "end_time": "12:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 5,
+        "building": "new_academic_building",
+        "floor": "F3",
+        "room_no": "R1",
+        "start_time": "12:00",
+        "end_time": "13:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 6,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R2",
+        "start_time": "13:00",
+        "end_time": "14:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 7,
+        "building": "new_academic_building",
+        "floor": "F1",
+        "room_no": "R3",
+        "start_time": "14:00",
+        "end_time": "15:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 8,
+        "building": "academic_building",
+        "floor": "F2",
+        "room_no": "R1",
+        "start_time": "15:00",
+        "end_time": "16:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 9,
+        "building": "new_academic_building",
+        "floor": "F3",
+        "room_no": "R2",
+        "start_time": "16:00",
+        "end_time": "17:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 10,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R3",
+        "start_time": "17:00",
+        "end_time": "18:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 11,
+        "building": "new_academic_building",
+        "floor": "F1",
+        "room_no": "R1",
+        "start_time": "18:00",
+        "end_time": "19:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 12,
+        "building": "academic_building",
+        "floor": "F2",
+        "room_no": "R2",
+        "start_time": "19:00",
+        "end_time": "20:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 13,
+        "building": "new_academic_building",
+        "floor": "F3",
+        "room_no": "R3",
+        "start_time": "20:00",
+        "end_time": "21:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 14,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R1",
+        "start_time": "21:00",
+        "end_time": "22:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 15,
+        "building": "new_academic_building",
+        "floor": "F1",
+        "room_no": "R2",
+        "start_time": "22:00",
+        "end_time": "23:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 16,
+        "building": "academic_building",
+        "floor": "F2",
+        "room_no": "R3",
+        "start_time": "23:00",
+        "end_time": "00:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 17,
+        "building": "new_academic_building",
+        "floor": "F3",
+        "room_no": "R1",
+        "start_time": "00:00",
+        "end_time": "01:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 18,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R2",
+        "start_time": "01:00",
+        "end_time": "02:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 19,
+        "building": "new_academic_building",
+        "floor": "F1",
+        "room_no": "R3",
+        "start_time": "02:00",
+        "end_time": "03:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 20,
+        "building": "academic_building",
+        "floor": "F2",
+        "room_no": "R1",
+        "start_time": "03:00",
+        "end_time": "04:00",
+        "setup": "hybrid",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 21,
+        "building": "new_academic_building",
+        "floor": "F3",
+        "room_no": "R2",
+        "start_time": "04:00",
+        "end_time": "05:00",
+        "setup": "in-person",
+        "date": "12-08-2024"
+    },
+    {
+        "event_id": 22,
+        "building": "academic_building",
+        "floor": "GF",
+        "room_no": "R3",
+        "start_time": "05:00",
+        "end_time": "06:00",
+        "setup": "online",
+        "date": "12-08-2024"
+    }
+]

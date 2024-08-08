@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 class MyWidget extends StatefulWidget {
   const MyWidget({super.key});
@@ -17,8 +16,8 @@ class _MyWidgetState extends State<MyWidget> {
     final String response = await rootBundle.loadString('assets/res/data/test.json');
     final data = await json.decode(response);
     setState(() {
-      var _items = data["items"];
-      print("..number of items ${_items.length}");
+      var items = data["items"];
+      print("..number of items ${items.length}");
     });
   }
 

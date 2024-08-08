@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:facility_reservation/event/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_ui/responsive_ui.dart';
@@ -43,19 +44,20 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   void handleSubmit() {
-    userChoices = {
-      'building': buildingValue,
-      'floor': floorValue,
-      'wing': wingValue,
-      'room': roomValue,
-    };
-    print('User choices: $userChoices');
+    setState(() {
+      userChoices = {
+        'building': buildingValue,
+        'floor': floorValue,
+        'room': roomValue,
+      };
+      print('User choices: $userChoices');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Responsive Test")),
+      appBar: AppBar(title: const Text("Responsive Test")),
       body: SingleChildScrollView(
         child: Responsive(
           children: <Widget>[
@@ -80,16 +82,6 @@ class _MyWidgetState extends State<MyWidget> {
               },
             ),
             _buildDropdown(
-              label: "Wing",
-              value: wingValue,
-              items: _items['wing'],
-              onChanged: (value) {
-                setState(() {
-                  wingValue = value;
-                });
-              },
-            ),
-            _buildDropdown(
               label: "Room",
               value: roomValue,
               items: _items['rooms'],
@@ -106,10 +98,24 @@ class _MyWidgetState extends State<MyWidget> {
                 colM: 12,
               ),
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TextButton(
                   onPressed: handleSubmit,
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
+                ),
+              ),
+            ),
+            Div(
+              divison: const Division(
+                colXL: 12,
+                colL: 12,
+                colM: 12,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 400, // Set a fixed height to prevent overflow
+                  child: EventResult(userChoices: userChoices),
                 ),
               ),
             ),
@@ -132,7 +138,7 @@ class _MyWidgetState extends State<MyWidget> {
         colM: 2,
       ),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
           value: value,
           hint: Text(label),
