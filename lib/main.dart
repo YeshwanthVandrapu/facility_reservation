@@ -77,7 +77,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   children: [
                     Container(
+                     decoration: ShapeDecoration(
                       color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignCenter,
+                      color: Color(0xFFE6E6EC),
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                      ),
+                      ),
+                      margin: const EdgeInsets.only(top: 16),
                       child: const Filters() 
                     ),
                     const SizedBox(

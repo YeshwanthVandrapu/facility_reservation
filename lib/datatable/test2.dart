@@ -22,7 +22,7 @@ class _ResultDataState extends State<ResultData> {
             cardColor: Colors.white,
             dividerColor: Colors.grey.shade300, // Light grey divider
             dataTableTheme: DataTableThemeData(
-              headingRowColor: WidgetStateProperty.all(Colors.white),
+              headingRowColor: WidgetStateProperty.all(const Color(0xFFF7F6F6)),
               dataRowColor: WidgetStateProperty.all(Colors.white),
             ),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Colors.white),

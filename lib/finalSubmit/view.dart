@@ -16,7 +16,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff8f7f7),
       appBar: AppBar(
-        title: Text("Final Submit Page"),
+        title: const Text("Final Submit Page"),
       ),
       body: SingleChildScrollView(
         child: Align(
@@ -34,7 +34,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                     child: Image.asset(
                       'res/img/popupPic.png', 
                       width: double.infinity,
@@ -46,17 +46,17 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   Container(
                       decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16),
                       ),
                       border: Border.all(color: Colors.grey[300]!),
                     ),
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Seminar Hall 1',
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
@@ -64,12 +64,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           'Ground Floor | JSW Academic Block | 100',
                           style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Row(
                           children: [
                             Expanded(
                               child: TextField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Selected Date',
                                   suffixIcon: Icon(Icons.calendar_today),
                                   border: OutlineInputBorder(),
@@ -78,10 +78,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 controller: TextEditingController(text: '12/02/2024'),
                               ),
                             ),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Expanded(
                               child: TextField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Time',
                                   suffixIcon: Icon(Icons.access_time),
                                   border: OutlineInputBorder(),
@@ -92,25 +92,25 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextField(
                           controller: bookingPurposeController,
                           maxLines: 4,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Please explain the purpose of this booking',
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
+                        const SizedBox(height: 8),
+                        const Text(
                           'Note: Booking priority will be given to academic uses first.',
                           style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Row(
                           children: [
-                            Text('Any Special Needs?'),
-                            SizedBox(width: 16),
+                            const Text('Any Special Needs?'),
+                            const SizedBox(width: 16),
                             DropdownButton<bool>(
                               value: hasSpecialNeeds,
                               onChanged: (value) {
@@ -118,7 +118,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   hasSpecialNeeds = value!;
                                 });
                               },
-                              items: [
+                              items: const [
                                 DropdownMenuItem(value: true, child: Text('Yes')),
                                 DropdownMenuItem(value: false, child: Text('No')),
                               ],
@@ -194,20 +194,22 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Request Submitted'),
-          content: const Text("Your Reservation request (Reservation Number)  has been sent to the approver for review and further processing. You can check the status of your request here or you can go to \"Manage Reservations\" under 'Facility Reservation' module"),
+          title: Center(child: const Text('Request Submitted')),
+          content: const Text("Your Reservation request (Reservation Number)  has been sent to the approver for review and further processing. \nYou can check the status of your request here or you can go to \"Manage Reservations\" under 'Facility Reservation' module"),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                // Implement booking logic here
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
+            // TextButton(
+            //   child: const Text('Cancel'),
+            //   onPressed: () => Navigator.of(context).pop(),
+            // ),
+            Center(
+              child: TextButton(
+                child: const Text('Back to home'),
+                onPressed: () {
+                  // Implement booking logic here
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
           ],
         );

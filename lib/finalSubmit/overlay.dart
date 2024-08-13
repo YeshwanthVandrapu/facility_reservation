@@ -16,12 +16,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff8f7f7),
       appBar: AppBar(
-        title: Text("Final Submit Page"),
+        title: const Text("Final Submit Page"),
       ),
       body: SingleChildScrollView(
   child: Align(
     alignment: Alignment.topCenter,
-    child: Container(
+    child: SizedBox(
       width: 1600,
       child: Stack(
         clipBehavior: Clip.none,
@@ -37,7 +37,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 40), // Add space for the overlapping content
+              const SizedBox(height: 40), // Add space for the overlapping content
             ],
           ),
           Positioned(
@@ -53,16 +53,16 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              padding: EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Seminar Hall 1',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -70,12 +70,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     'Ground Floor | JSW Academic Block | 100',
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Selected Date',
                             suffixIcon: Icon(Icons.calendar_today),
                             border: OutlineInputBorder(),
@@ -84,10 +84,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           controller: TextEditingController(text: '12/02/2024'),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Time',
                             suffixIcon: Icon(Icons.access_time),
                             border: OutlineInputBorder(),
@@ -98,25 +98,25 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       ),
                     ],
                   ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       TextField(
                         controller: bookingPurposeController,
                         maxLines: 4,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Please explain the purpose of this booking',
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Note: Booking priority will be given to academic uses first.',
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
-                          Text('Any Special Needs?'),
-                          SizedBox(width: 16),
+                          const Text('Any Special Needs?'),
+                          const SizedBox(width: 16),
                           DropdownButton<bool>(
                             value: hasSpecialNeeds,
                             onChanged: (value) {
@@ -124,7 +124,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 hasSpecialNeeds = value!;
                               });
                             },
-                            items: [
+                            items: const [
                               DropdownMenuItem(value: true, child: Text('Yes')),
                               DropdownMenuItem(value: false, child: Text('No')),
                             ],

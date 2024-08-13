@@ -14,7 +14,9 @@ class _FiltersState extends State<Filters> {
   String? selectedRoom;
   DateTime? startDateTime;
   DateTime? endDateTime;
-  int? attendeeCapacity;
+  String? attendeeCapacity;
+  String? facilityStatus;
+  String? facilityType;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +70,8 @@ class _FiltersState extends State<Filters> {
           ),
           child:Padding(
             padding: const EdgeInsets.only(left: 48, top: 24,right: 48,bottom: 0),
-            child: _buildDropdown('ATTENDEE CAPACITY', selectedRoom, (value) {
-                  setState(() => selectedRoom = value);
+            child: _buildDropdown('ATTENDEE CAPACITY', attendeeCapacity, (value) {
+                  setState(() => attendeeCapacity = value);
                 }),
           ),
           ),
@@ -81,8 +83,8 @@ class _FiltersState extends State<Filters> {
           ),
           child:Padding(
             padding: const EdgeInsets.only(left: 48, top: 32,right: 0,bottom: 0),
-            child: _buildDropdown('FACILITY STATUS', selectedRoom, (value) {
-                  setState(() => selectedRoom = value);
+            child: _buildDropdown('FACILITY STATUS',  facilityStatus, (value) {
+                  setState(() =>  facilityStatus = value);
                 }),
           ),
           ),
@@ -94,8 +96,8 @@ class _FiltersState extends State<Filters> {
           ),
           child:Padding(
             padding: const EdgeInsets.only(left: 42, top: 32,right: 0,bottom: 0),
-            child: _buildDropdown('FACILITY TYPE', selectedRoom, (value) {
-                  setState(() => selectedRoom = value);
+            child: _buildDropdown('FACILITY TYPE', facilityType, (value) {
+                  setState(() => facilityType = value);
                 }),
           ),
           ),
@@ -125,7 +127,7 @@ class _FiltersState extends State<Filters> {
                 // Handle search
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff1E88E5),
+                backgroundColor: const Color(0xff1E88E5),
                 minimumSize: const Size.fromHeight(52),
                 // padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
