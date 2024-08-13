@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 
 
 class BookingCalendarDemoApp extends StatefulWidget {
-  const BookingCalendarDemoApp({Key? key}) : super(key: key);
+  const BookingCalendarDemoApp({super.key});
 
   @override
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();

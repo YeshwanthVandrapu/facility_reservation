@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../calender/view.dart';
 import 'package:booking_calendar/booking_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class ResultData extends StatefulWidget {
   const ResultData({super.key});
@@ -90,13 +88,13 @@ class MyData extends DataTableSource {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.8, // Adjust width as needed
             height: MediaQuery.of(context).size.height * 0.8, // Adjust height as needed
-            child: Column(
+            child: const Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "Select Room",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -124,7 +122,7 @@ class MyData extends DataTableSource {
 }
 
 class BookingCalendarDemoApp extends StatefulWidget {
-  const BookingCalendarDemoApp({Key? key}) : super(key: key);
+  const BookingCalendarDemoApp({super.key});
 
   @override
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();

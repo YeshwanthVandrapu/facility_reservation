@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'datatable/test.dart';
+import 'datatable/test2.dart';
+
 
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Facility Management'),
@@ -63,22 +64,27 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xfff8f7f7),
           appBar: AppBar(
             title: Text(widget.title),
           ),
           body: SingleChildScrollView(
             child: Align(
               alignment: Alignment.topCenter,   
-              child: Container(
-                color:Colors.white, width:  1600, 
+              child: SizedBox(
+                // color:Colors.white, 
+                width:  1600, 
                 child: Column(
                   children: [
-                    const Filters(),
-                    SizedBox(
+                    Container(
+                      color: Colors.white,
+                      child: const Filters() 
+                    ),
+                    const SizedBox(
                       height: 80,
                     ),
                     Container(
+                      color: Colors.white,
                       // width: 1200,
                       child: const ResultData()
                       )
