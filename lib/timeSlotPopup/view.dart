@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../datePicker/view.dart';
 import '../finalSubmit/view.dart';
 
 class TimeSlotPopup extends StatelessWidget {
@@ -16,24 +17,31 @@ class TimeSlotPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.white,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.6,
         height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
             Stack(
               children: [
-                Image.asset(
-                  'res/img/popupPic.png', 
-                  width: double.infinity,
-                  height: 200,
-                  fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.only(top: 48.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
+                    child: Image.asset(
+                      'res/img/popupPic.png', 
+                      width: double.infinity,
+                      height: 250,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 Positioned(
-                  top: 10,
+                  top: 8,
                   right: 10,
                   child: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
+                    icon: const Icon(Icons.close, color: Colors.black, weight: 600,),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
@@ -51,28 +59,42 @@ class TimeSlotPopup extends StatelessWidget {
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        'Ground Floor | JSW Academic Block | 100',
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      ),
-                      const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Available Time Slots',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '${date.day}/${date.month}/${date.year}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
+                          RichText(
+                              text: TextSpan(
+                                style: TextStyle(color: Color(0xFF1E1E1E),
+                                    fontSize: 16,
+                                    fontFamily: 'Urbanist',
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.5),
+                                children: [
+                                  TextSpan(text: 'Ground Floor | JSW Academic Block | '),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.people,
+                                      size: 18,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  TextSpan(text: ' 100'),
+                                ],
+                              ),
+                            ),
+                            DateSelectorWithIcon(),
                         ],
                       ),
                       const SizedBox(height: 16),
+                      Text(
+                        'Available Time Slots',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 16),
                       Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
+                        spacing: 36,
+                        runSpacing: 24,
                         children: timeSlots.map((slot) {
                           bool isBooked = bookedSlots.contains(slot);
                           return OutlinedButton(
@@ -108,15 +130,18 @@ class TimeSlotPopup extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookingDetailsPage())),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                child: const Text(
-                  'Proceed to select time',
-                  style: TextStyle(color: Colors.white),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookingDetailsPage())),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF1D5CA4),
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.12, 50),
+                  ),
+                  child: const Text(
+                    'Proceed to select time',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),

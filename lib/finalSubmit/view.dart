@@ -24,12 +24,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
+              color: Colors.white,
               width: 1600,
-              
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.amber,
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,26 +39,42 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     
                     ),
                   ),
-                  Container(
-                      decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
-                      ),
-                      border: Border.all(color: Colors.grey[300]!),
-                    ),
-                    padding: const EdgeInsets.all(16),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Seminar Hall 1',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Color(0xFF1E1E1E),
+                              fontSize: 32,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                              height: 0.04,
+                            ),
                         ),
-                        Text(
-                          'Ground Floor | JSW Academic Block | 100',
-                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        SizedBox(height: 16,),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Color(0xFF1E1E1E),
+                                fontSize: 16,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.w500,
+                                height: 1.5),
+                            children: [
+                              TextSpan(text: 'Ground Floor | JSW Academic Block | '),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Icon(
+                                  Icons.people,
+                                  size: 18,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              TextSpan(text: ' 100'),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -170,10 +182,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                               _showConfirmationDialog(context);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Color(0xFF1D5CA4),
                               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                             ),
-                            child: const Text('Submit Request'),
+                            child: const Text('Submit Request', style: TextStyle(color: Colors.white),),
                           ),
                         ),
                       ],
@@ -194,21 +206,45 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(child: const Text('Request Submitted')),
-          content: const Text("Your Reservation request (Reservation Number)  has been sent to the approver for review and further processing. \nYou can check the status of your request here or you can go to \"Manage Reservations\" under 'Facility Reservation' module"),
+          title: Center(
+              child: const Text(
+            'Request Submitted',
+            style: TextStyle(
+                color: Color(0xFF004B50),
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Urbanist'),
+          )),
+          content: const Text(
+              " Your Reservation request (Reservation Number)  has been sent to the approver for review and further processing. \nYou can check the status of your request here or you can go to \"Manage Reservations\" under 'Facility Reservation' module"),
           actions: <Widget>[
             // TextButton(
             //   child: const Text('Cancel'),
             //   onPressed: () => Navigator.of(context).pop(),
             // ),
             Center(
-              child: TextButton(
-                child: const Text('Back to home'),
-                onPressed: () {
-                  // Implement booking logic here
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
+              child: Container(
+                width: 160,
+                height: 48,
+                decoration: ShapeDecoration(
+                    color: Color(0xFF275C9D),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                child: Center(
+                  child: TextButton(
+                    child: const Text(
+                      'Back to home',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Urbanist'),
+                    ),
+                    onPressed: () {
+                      // Implement booking logic here
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
               ),
             ),
           ],
