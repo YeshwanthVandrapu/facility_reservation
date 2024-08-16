@@ -95,10 +95,18 @@ class MyData extends DataTableSource {
         DataCell(Text(data[index]['Room Number'] ?? '')),
         DataCell(Text(data[index]['Attendance Capacity'] ?? '')),
         DataCell(Text(data[index]['Availability'] ?? '')),
-        DataCell(TextButton(
-          onPressed: () => _showSelectDialog(index),
-          child: Text(data[index]['Select'] ?? ''),
-        )),
+        DataCell(Center(child: TextButton(
+              onPressed: () => _showSelectDialog(index),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero, // Remove padding from the button
+                minimumSize: Size(50, 20), // Set a minimum size if needed
+                tapTargetSize: MaterialTapTargetSize
+                    .shrinkWrap, // Shrink the tap target size
+              ),
+              child: Text(data[index]['Select'] ?? ''),
+            ),
+          ),
+        ),
         DataCell(Text(data[index]['Event_id'] ?? '')),
       ],
       color: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
