@@ -8,8 +8,13 @@ class BookingDetailsPage extends StatefulWidget {
 }
 
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
+  // bool hasSpecialNeeds = false;
+  // TextEditingController bookingPurposeController = TextEditingController();
+
   bool hasSpecialNeeds = false;
   TextEditingController bookingPurposeController = TextEditingController();
+  Map<String, String> dropdownValues = {};
+  Map<String, TextEditingController> numberControllers = {};
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     child: Image.asset(
                       'res/img/popupPic.png', 
                       width: double.infinity,
-                      height: 200,
+                      height: 250,
                       fit: BoxFit.cover,
                     
                     ),
@@ -54,16 +59,16 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                               height: 0.04,
                             ),
                         ),
-                        SizedBox(height: 16,),
+                        const SizedBox(height: 16,),
                         RichText(
                           text: TextSpan(
-                            style: TextStyle(color: Color(0xFF1E1E1E),
+                            style: const TextStyle(color: Color(0xFF1E1E1E),
                                 fontSize: 16,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w500,
                                 height: 1.5),
                             children: [
-                              TextSpan(text: 'Ground Floor | JSW Academic Block | '),
+                              const TextSpan(text: 'Ground Floor | JSW Academic Block | '),
                               WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(
@@ -72,7 +77,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   color: Colors.grey[600],
                                 ),
                               ),
-                              TextSpan(text: ' 100'),
+                              const TextSpan(text: ' 100'),
                             ],
                           ),
                         ),
@@ -138,42 +143,24 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           ],
                         ),
                         if (hasSpecialNeeds) ...[
-                          const SizedBox(height: 16),
-                          Table(
-                            columnWidths: const {
-                              0: FlexColumnWidth(2),
-                              1: FlexColumnWidth(2),
-                              2: FlexColumnWidth(3),
-                            },
-                            children: [
-                              TableRow(children: [
-                                const Text('MIC'),
-                                DropdownButton(items: const [], onChanged: null, hint: const Text('Select')),
-                                const TextField(decoration: InputDecoration(hintText: 'Enter Number')),
-                              ]),
-                              TableRow(children: [
-                                const Text('Speaker'),
-                                DropdownButton(items: const [], onChanged: null, hint: const Text('Select')),
-                                const TextField(decoration: InputDecoration(hintText: 'Enter Number')),
-                              ]),
-                              TableRow(children: [
-                                const Text('Projector'),
-                                DropdownButton(items: const [], onChanged: null, hint: const Text('Select')),
-                                const TextField(decoration: InputDecoration(hintText: 'Enter Number')),
-                              ]),
-                              TableRow(children: [
-                                const Text('Chairs'),
-                                DropdownButton(items: const [], onChanged: null, hint: const Text('Select')),
-                                const TextField(decoration: InputDecoration(hintText: 'Enter Number')),
-                              ]),
-                              TableRow(children: [
-                                const Text('Tables'),
-                                DropdownButton(items: const [], onChanged: null, hint: const Text('Select')),
-                                const TextField(decoration: InputDecoration(hintText: 'Enter Number')),
-                              ]),
-                            ],
-                          ),
-                        ],
+                        const SizedBox(height: 16),
+                        Table(
+                          border: TableBorder.all(color: Colors.grey[300]!),
+                          columnWidths: const {
+                            0: FlexColumnWidth(1),
+                            1: FlexColumnWidth(1),
+                            2: FlexColumnWidth(1),
+                          },
+                          children: [
+                            _buildTableHeaderRow(),
+                            _buildTableRow('MIC'),
+                            _buildTableRow('Speaker'),
+                            _buildTableRow('Projector'),
+                            _buildTableRow('Chairs'),
+                            _buildTableRow('Tables'),                      
+                          ],
+                        ),
+                      ],
                         const SizedBox(height: 24),
                         Align(
                           alignment: Alignment.centerRight,
@@ -182,7 +169,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                               _showConfirmationDialog(context);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF1D5CA4),
+                              backgroundColor: const Color(0xFF1D5CA4),
                               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                             ),
                             child: const Text('Submit Request', style: TextStyle(color: Colors.white),),
@@ -200,14 +187,108 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     );
   }
 
+  TableRow _buildTableHeaderRow() {
+  return TableRow(
+    decoration: BoxDecoration(color: Colors.grey[200]),
+    children: [
+      TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Item', style: TextStyle(fontWeight: FontWeight.bold)))),
+      TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Select', style: TextStyle(fontWeight: FontWeight.bold)))),
+      TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Quantity', style: TextStyle(fontWeight: FontWeight.bold)))),
+    ],
+  );
+}
+
+TableRow _buildTableRow(String label) {
+  return TableRow(
+    children: [
+      TableCell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(label),
+        ),
+      ),
+      TableCell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _buildDropdown(label),
+        ),
+      ),
+      TableCell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _buildNumberField(label),
+        ),
+      ),
+    ],
+  );
+}
+
+ Widget _buildDropdown(String label) {
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return DropdownButton<String>(
+          value: _getDropdownValue(label),
+          isExpanded: true,
+          onChanged: (String? newValue) {
+            setState(() {
+              _updateDropdownValue(label, newValue);
+            });
+            // Trigger a rebuild of the parent widget
+            this.setState(() {});
+          },
+          items: ['Select', 'Yes', 'No']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
+  Widget _buildNumberField(String label) {
+    return TextField(
+      controller: _getNumberController(label),
+      enabled: _getDropdownValue(label) == 'Yes',
+      decoration: InputDecoration(
+        hintText: 'Enter Number',
+        border: OutlineInputBorder(),
+      ),
+      keyboardType: TextInputType.number,
+    );
+  }
+
+  String _getDropdownValue(String label) {
+    return dropdownValues[label] ?? 'Select';
+  }
+
+  void _updateDropdownValue(String label, String? value) {
+    if (value != null) {
+      dropdownValues[label] = value;
+      if (value != 'Yes') {
+        _getNumberController(label).clear();
+      }
+    }
+  }
+
+  TextEditingController _getNumberController(String label) {
+    if (!numberControllers.containsKey(label)) {
+      numberControllers[label] = TextEditingController();
+    }
+    return numberControllers[label]!;
+  }
+
+
 
   void _showConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(
-              child: const Text(
+          title: const Center(
+              child: Text(
             'Request Submitted',
             style: TextStyle(
                 color: Color(0xFF004B50),
@@ -226,7 +307,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 width: 160,
                 height: 48,
                 decoration: ShapeDecoration(
-                    color: Color(0xFF275C9D),
+                    color: const Color(0xFF275C9D),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                 child: Center(

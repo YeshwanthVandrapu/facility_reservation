@@ -1,0 +1,102 @@
+[
+    {
+      "room_id": "Room 1",
+      "date": "2024-08-16",
+      "time_slot": "09:00"
+    },
+    {
+      "room_id": "Room 1",
+      "date": "2024-08-16",
+      "time_slot": "14:00"
+    },
+    {
+      "room_id": "Room 2",
+      "date": "2024-08-16",
+      "time_slot": "11:00"
+    },
+    {
+      "room_id": "Room 2",
+      "date": "2024-08-17",
+      "time_slot": "15:00"
+    },
+    {
+      "room_id": "Room 3",
+      "date": "2024-08-17",
+      "time_slot": "08:00"
+    },
+    {
+      "room_id": "Room 3",
+      "date": "2024-08-17",
+      "time_slot": "13:00"
+    },
+    {
+      "room_id": "Room 4",
+      "date": "2024-08-18",
+      "time_slot": "10:00"
+    },
+    {
+      "room_id": "Room 4",
+      "date": "2024-08-18",
+      "time_slot": "16:00"
+    },
+    {
+      "room_id": "Room 5",
+      "date": "2024-08-18",
+      "time_slot": "09:00"
+    },
+    {
+      "room_id": "Room 5",
+      "date": "2024-08-19",
+      "time_slot": "13:00"
+    },
+    {
+      "room_id": "Room 6",
+      "date": "2024-08-19",
+      "time_slot": "11:00"
+    },
+    {
+      "room_id": "Room 6",
+      "date": "2024-08-19",
+      "time_slot": "14:00"
+    },
+    {
+      "room_id": "Room 7",
+      "date": "2024-08-20",
+      "time_slot": "08:00"
+    },
+    {
+      "room_id": "Room 7",
+      "date": "2024-08-20",
+      "time_slot": "12:00"
+    },
+    {
+      "room_id": "Room 8",
+      "date": "2024-08-20",
+      "time_slot": "10:00"
+    },
+    {
+      "room_id": "Room 8",
+      "date": "2024-08-20",
+      "time_slot": "15:00"
+    },
+    {
+      "room_id": "Room 9",
+      "date": "2024-08-20",
+      "time_slot": "09:00"
+    },
+    {
+      "room_id": "Room 9",
+      "date": "2024-08-21",
+      "time_slot": "14:00"
+    },
+    {
+      "room_id": "Room 10",
+      "date": "2024-08-21",
+      "time_slot": "11:00"
+    },
+    {
+      "room_id": "Room 10",
+      "date": "2024-08-21",
+      "time_slot": "16:00"
+    }
+  ]

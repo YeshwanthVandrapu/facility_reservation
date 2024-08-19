@@ -1,7 +1,6 @@
+import 'package:facility_reservation/finalSubmit/view.dart';
 import 'package:flutter/material.dart';
-
-import '../datePicker/view.dart';
-import '../finalSubmit/view.dart';
+import 'package:intl/intl.dart'; 
 
 class TimeSlotPopup extends StatelessWidget {
   final DateTime date;
@@ -63,31 +62,33 @@ class TimeSlotPopup extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
-                              text: TextSpan(
-                                style: TextStyle(color: Color(0xFF1E1E1E),
-                                    fontSize: 16,
-                                    fontFamily: 'Urbanist',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5),
-                                children: [
-                                  TextSpan(text: 'Ground Floor | JSW Academic Block | '),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
-                                      Icons.people,
-                                      size: 18,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                  TextSpan(text: ' 100'),
-                                ],
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: Color(0xFF1E1E1E),
+                                fontSize: 16,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
                               ),
+                              children: [
+                                const TextSpan(text: 'Ground Floor | JSW Academic Block | '),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.people,
+                                    size: 18,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                const TextSpan(text: ' 100'),
+                              ],
                             ),
-                            DateSelectorWithIcon(),
+                          ),
+                          const DateSelectorWithIcon(),
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Available Time Slots',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -98,11 +99,8 @@ class TimeSlotPopup extends StatelessWidget {
                         children: timeSlots.map((slot) {
                           bool isBooked = bookedSlots.contains(slot);
                           return OutlinedButton(
-                            // onPressed: isBooked
-                            //     ? null
-                            //     : () => _showConfirmationDialog(context, slot),
-                            onPressed: (){
-                              // bookedSlots.add(slot);
+                            onPressed: () {
+                              // Handle slot selection logic here
                             },
                             style: OutlinedButton.styleFrom(
                               side: BorderSide(
@@ -135,7 +133,7 @@ class TimeSlotPopup extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookingDetailsPage())),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF1D5CA4),
+                    backgroundColor: const Color(0xFF1D5CA4),
                     minimumSize: Size(MediaQuery.of(context).size.width * 0.12, 50),
                   ),
                   child: const Text(
@@ -174,6 +172,58 @@ class TimeSlotPopup extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class DateSelectorWithIcon extends StatefulWidget {
+  const DateSelectorWithIcon({super.key});
+
+  @override
+  _DateSelectorWithIconState createState() => _DateSelectorWithIconState();
+}
+
+class _DateSelectorWithIconState extends State<DateSelectorWithIcon> {
+  DateTime _selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate);
+
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(Icons.calendar_today, color: Colors.grey),
+            const SizedBox(width: 10.0),
+            Text(
+              formattedDate,
+              style: const TextStyle(fontSize: 16.0),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

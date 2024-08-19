@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:facility_reservation/booking/controller.dart';
 import 'package:facility_reservation/event/controller.dart';
 import 'package:facility_reservation/filters/test.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'datatable/test2.dart';
 
 void main() {
   Get.put(EventController());
+  Get.put(BookingController());
   runApp(const MyApp());
 }
 
