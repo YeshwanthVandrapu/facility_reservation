@@ -1,25 +1,23 @@
-//TO DO : Handle error when user select room
-
+import 'package:facility_reservation/state_management/user_booking_state.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_ui/responsive_ui.dart';
-import '../state_management/state_provider.dart';
 
-class Filters extends StatefulWidget {
-  const Filters({super.key});
+class UserRequestFilter extends StatefulWidget {
+  const UserRequestFilter({super.key});
+
   @override
-  State<Filters> createState() => _FiltersState();
+  State<UserRequestFilter> createState() => _UserRequestFilterState();
 }
 
-class _FiltersState extends State<Filters> {
+class _UserRequestFilterState extends State<UserRequestFilter> {
   String? selectedBuilding;
   String? selectedFloor;
   String? selectedRoom;
   DateTime? startDateTime;
   DateTime? endDateTime;
-  String? attendeeCapacity;
   String? facilityStatus;
-  String? facilityType;
 
   final Map<String, List<String>> buildingFloors = {
     'JSW Academic Block': ['Ground Floor', 'First Floor', 'Second Floor', 'Third Floor'],
@@ -77,44 +75,7 @@ class _FiltersState extends State<Filters> {
               }, _getAvailableFloors()),
             ),
           ),
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown('SELECT ROOM', selectedRoom, (value) {
-                setState(() {
-                  selectedRoom = value;
-                  if (selectedRoom != null) {
-                    attendeeCapacity = null;
-                    facilityType = null;
-                  }
-                });
-              }, _getAvailableRooms()),
-            ),
-          ),
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown(
-                'ATTENDEE CAPACITY',
-                attendeeCapacity,
-                (value) {
-                  setState(() => attendeeCapacity = value);
-                },
-                ['30', '60', '>60'],
-                isEnabled: selectedRoom == null,
-              ),
-            ),
-          ),
+
           Div(
             divison: const Division(
               colL: 3,
@@ -133,25 +94,7 @@ class _FiltersState extends State<Filters> {
               ),
             ),
           ),
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown(
-                'FACILITY TYPE',
-                facilityType,
-                (value) {
-                  setState(() => facilityType = value);
-                },
-                ['Seminar Hall', 'Class Room'],
-                isEnabled: selectedRoom == null,
-              ),
-            ),
-          ),
+
           Div(
             divison: const Division(
               colL: 3,
@@ -175,7 +118,7 @@ class _FiltersState extends State<Filters> {
               padding: const EdgeInsets.all(8),
               child: ElevatedButton(
                 onPressed: () {
-                  Provider.of<MyState>(context, listen: false).toggleVisibility();
+                  Provider.of<UserBookingState>(context, listen: false).toggleVisibility();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff1E88E5),
@@ -206,7 +149,6 @@ class _FiltersState extends State<Filters> {
       ),
     );
   }
-
   List<String> _getAvailableFloors() {
     if (selectedBuilding != null) {
       return buildingFloors[selectedBuilding!]!;

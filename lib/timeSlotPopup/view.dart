@@ -149,31 +149,31 @@ class TimeSlotPopup extends StatelessWidget {
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, String slot) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirm Booking'),
-          content: Text('Are you sure you want to book this slot: $slot?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                // Implement booking logic here
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showConfirmationDialog(BuildContext context, String slot) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Confirm Booking'),
+  //         content: Text('Are you sure you want to book this slot: $slot?'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Cancel'),
+  //             onPressed: () => Navigator.of(context).pop(),
+  //           ),
+  //           TextButton(
+  //             child: const Text('OK'),
+  //             onPressed: () {
+  //               // Implement booking logic here
+  //               Navigator.of(context).pop();
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }
 
 class DateSelectorWithIcon extends StatefulWidget {

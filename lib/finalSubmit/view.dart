@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../time_selector/view.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -81,34 +84,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Selected Date',
-                                  suffixIcon: Icon(Icons.calendar_today),
-                                  border: OutlineInputBorder(),
-                                ),
-                                readOnly: true,
-                                controller: TextEditingController(text: '12/02/2024'),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Time',
-                                  suffixIcon: Icon(Icons.access_time),
-                                  border: OutlineInputBorder(),
-                                ),
-                                readOnly: true,
-                                controller: TextEditingController(text: '09:45 PM - 10:45 PM'),
-                              ),
-                            ),
-                          ],
-                        ),
+                         SeminarHallScreen(),
                         const SizedBox(height: 16),
                         TextField(
                           controller: bookingPurposeController,
@@ -144,21 +120,24 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         ),
                         if (hasSpecialNeeds) ...[
                         const SizedBox(height: 16),
-                        Table(
-                          border: TableBorder.all(color: Colors.grey[300]!),
-                          columnWidths: const {
-                            0: FlexColumnWidth(1),
-                            1: FlexColumnWidth(1),
-                            2: FlexColumnWidth(1),
-                          },
-                          children: [
-                            _buildTableHeaderRow(),
-                            _buildTableRow('MIC'),
-                            _buildTableRow('Speaker'),
-                            _buildTableRow('Projector'),
-                            _buildTableRow('Chairs'),
-                            _buildTableRow('Tables'),                      
-                          ],
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width/3,
+                          child: Table(
+                            border: TableBorder.all(color: Colors.grey[300]!),
+                            columnWidths: const {
+                              0: FlexColumnWidth(1),
+                              1: FlexColumnWidth(1),
+                              2: FlexColumnWidth(1),
+                            },
+                            children: [
+                              _buildTableHeaderRow(),
+                              _buildTableRow('MIC'),
+                              _buildTableRow('Speaker'),
+                              _buildTableRow('Projector'),
+                              _buildTableRow('Chairs'),
+                              _buildTableRow('Tables'),                      
+                            ],
+                          ),
                         ),
                       ],
                         const SizedBox(height: 24),
@@ -190,7 +169,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   TableRow _buildTableHeaderRow() {
   return TableRow(
     decoration: BoxDecoration(color: Colors.grey[200]),
-    children: [
+    children: const [
       TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Item', style: TextStyle(fontWeight: FontWeight.bold)))),
       TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Select', style: TextStyle(fontWeight: FontWeight.bold)))),
       TableCell(child: Padding(padding: EdgeInsets.all(8.0), child: Text('Quantity', style: TextStyle(fontWeight: FontWeight.bold)))),
@@ -202,9 +181,10 @@ TableRow _buildTableRow(String label) {
   return TableRow(
     children: [
       TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(label),
+          child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600),),
         ),
       ),
       TableCell(
@@ -224,9 +204,10 @@ TableRow _buildTableRow(String label) {
 }
 
  Widget _buildDropdown(String label) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return DropdownButton<String>(
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
           value: _getDropdownValue(label),
           isExpanded: true,
           onChanged: (String? newValue) {
@@ -243,16 +224,17 @@ TableRow _buildTableRow(String label) {
               child: Text(value),
             );
           }).toList(),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
 
   Widget _buildNumberField(String label) {
     return TextField(
       controller: _getNumberController(label),
       enabled: _getDropdownValue(label) == 'Yes',
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Enter Number',
         border: OutlineInputBorder(),
       ),
@@ -295,8 +277,29 @@ TableRow _buildTableRow(String label) {
                 fontWeight: FontWeight.w700,
                 fontFamily: 'Urbanist'),
           )),
-          content: const Text(
-              " Your Reservation request (Reservation Number)  has been sent to the approver for review and further processing. \nYou can check the status of your request here or you can go to \"Manage Reservations\" under 'Facility Reservation' module"),
+          content: RichText(
+            text: TextSpan(
+              text: 'Your Reservation request (Reservation Number) has been sent to the approver for review and further processing. \nYou can check the status of your request ',
+              style: const TextStyle(color: Colors.black), // Set the default text color
+              children: [
+                TextSpan(
+                  text: 'here',
+                  style: const TextStyle(
+                    color: Colors.blue, // Color for the clickable text
+                    decoration: TextDecoration.underline, // Optional: underline for emphasis
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      // Navigate to the main page when "here" is clicked
+                      Navigator.pushNamed(context, '/'); // Update with your route name
+                    },
+                ),
+                const TextSpan(
+                  text: ' or you can go to "Manage Reservations" under \'Facility Reservation\' module.',
+                ),
+             ],
+            ),
+          ),
           actions: <Widget>[
             // TextButton(
             //   child: const Text('Cancel'),

@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:facility_reservation/booking/controller.dart';
 import 'package:facility_reservation/event/controller.dart';
 import 'package:facility_reservation/filters/test.dart';
+import 'package:facility_reservation/state_management/user_booking_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'datatable/test2.dart';
+
 import 'package:provider/provider.dart';
-import 'state_management/state_provider.dart';
+
+import '../datatable/test2.dart';
+
 
 
 
@@ -16,7 +19,7 @@ void main() {
   Get.put(BookingController());
   runApp(
     ChangeNotifierProvider(
-      create: (context) => MyState(),
+      create: (context) =>UserBookingState(),
       child: const MyApp(),
     ),
   );
@@ -68,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyState>(
+    return Consumer<UserBookingState>(
       builder: (context, myState, child) {
         return MaterialApp(
           home: SafeArea(
