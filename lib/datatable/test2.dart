@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-// import '../timeSlotPopup/test.dart';
 import '../timeSlotPopup/view.dart';
 
 class ResultData extends StatefulWidget {
@@ -15,24 +13,23 @@ class _ResultDataState extends State<ResultData> {
   final List<int> _availableRowsPerPage = [5, 10, 20];
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
         child: Theme(
           data: Theme.of(context).copyWith(
             cardColor: Colors.white,
-            dividerColor: Colors.grey.shade300, // Light grey divider
+            dividerColor: Colors.grey.shade300,
             dataTableTheme: DataTableThemeData(
               headingRowColor: WidgetStateProperty.all(const Color(0xFFF7F6F6)),
               dataRowColor: WidgetStateProperty.all(Colors.white),
             ),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Colors.white),
-            // Add this to style the pagination controls
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: Colors.black, // Text color
-                backgroundColor: Colors.white, // Button background color
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
               ),
             ),
           ),
@@ -41,16 +38,16 @@ class _ResultDataState extends State<ResultData> {
               DataColumn(label: Text("Building/Block")),
               DataColumn(label: Text("Floor")),
               DataColumn(label: Text("Room Number/Name")),
-              DataColumn(label: Text("Attendance Capacity")),
+              DataColumn(label: Text("Attendee Capacity")),
+              DataColumn(label: Text("Does it include a projector and AV setup?")),
               DataColumn(label: Text("Availability")),
               DataColumn(label: Text("Select")),
-              DataColumn(label: Text("Event ID")),
             ],
             source: MyData(context),
             horizontalMargin: 30,
             showFirstLastButtons: true,
             rowsPerPage: _rowsPerPage,
-            columnSpacing: 150,
+            columnSpacing: 120,
             availableRowsPerPage: _availableRowsPerPage,
             onRowsPerPageChanged: (value) {
               setState(() {
@@ -63,28 +60,91 @@ class _ResultDataState extends State<ResultData> {
     );
   }
 }
+
 class MyData extends DataTableSource {
   final BuildContext context;
   MyData(this.context);
 
   List<Map<String, String>> data = [
     {
-      "Building": "JSW Academic Building",
+      "Building/Block": "JSW ACADEMIC BLOCK",
       "Floor": "Ground Floor",
-      "Room Number": "1",
-      "Attendance Capacity": "60",
+      "Room Number/Name": "Seminar Hall 1",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
       "Availability": "Yes",
-      "Select": "Select",
-      "Event_id": "E00251",
     },
     {
-      "Building": "JSW Academic Building",
+      "Building/Block": "JSW ACADEMIC BLOCK",
       "Floor": "Ground Floor",
-      "Room Number": "2",
-      "Attendance Capacity": "30",
+      "Room Number/Name": "Seminar Hall 2",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
       "Availability": "Yes",
-      "Select": "Select",
-      "Event_id": "E00252",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Seminar Hall 3",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Atrium L",
+      "Attendee Capacity": "50",
+      "Does it include a projector and AV setup?": "No",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Atrium R",
+      "Attendee Capacity": "50",
+      "Does it include a projector and AV setup?": "No",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1A",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1B",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1C",
+      "Attendee Capacity": "40",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1D",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1E",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
     },
   ];
 
@@ -92,27 +152,26 @@ class MyData extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
       cells: [
-        DataCell(Text(data[index]['Building'] ?? '')),
+        DataCell(Text(data[index]['Building/Block'] ?? '')),
         DataCell(Text(data[index]['Floor'] ?? '')),
-        DataCell(Text(data[index]['Room Number'] ?? '')),
-        DataCell(Text(data[index]['Attendance Capacity'] ?? '')),
+        DataCell(Text(data[index]['Room Number/Name'] ?? '')),
+        DataCell(Text(data[index]['Attendee Capacity'] ?? '')),
+        DataCell(Text(data[index]['Does it include a projector and AV setup?'] ?? '')),
         DataCell(Text(data[index]['Availability'] ?? '')),
-        DataCell(Center(child: TextButton(
-              onPressed: () => _showSelectDialog(index),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero, // Remove padding from the button
-                minimumSize: const Size(50, 20), // Set a minimum size if needed
-                tapTargetSize: MaterialTapTargetSize
-                    .shrinkWrap, // Shrink the tap target size
-              ),
-              child: Text(data[index]['Select'] ?? ''),
+        DataCell(Center(
+          child: TextButton(
+            onPressed: () => _showSelectDialog(index),
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(50, 20),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
+            child: const Text('Select'),
           ),
-        ),
-        DataCell(Text(data[index]['Event_id'] ?? '')),
+        )),
       ],
       color: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-        return Colors.white; // Set each row's background color to white
+        return Colors.white;
       }),
     );
   }
@@ -131,7 +190,6 @@ class MyData extends DataTableSource {
             '08:30 PM', '09:00 PM', '09:30 PM', '10:00 PM', '10:30 PM', '11:00 PM',
           ],
           bookedSlots: const ['08:30 AM', '09:00 AM', '09:30 AM','05:30 PM', '06:00 PM'], 
-          // roomId: "Room 1"
         );
       },
     );

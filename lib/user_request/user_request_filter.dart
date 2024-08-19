@@ -1,8 +1,12 @@
-import 'package:facility_reservation/state_management/user_booking_state.dart';
+// import 'package:facility_reservation/state_management/user_booking_state.dart';
+import 'package:facility_reservation/state_management/state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_ui/responsive_ui.dart';
+
+import '../datatable/test.dart';
+import 'user_request_table.dart';
 
 class UserRequestFilter extends StatefulWidget {
   const UserRequestFilter({super.key});
@@ -37,116 +41,163 @@ class _UserRequestFilterState extends State<UserRequestFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 48, right: 48, top: 24, bottom: 8),
-        child: Responsive(children: <Widget>[
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown('SELECT BUILDING', selectedBuilding, (value) {
-                setState(() {
-                  selectedBuilding = value;
-                  selectedFloor = null;
-                  selectedRoom = null;
-                });
-              }, buildingFloors.keys.toList()),
-            ),
+    
+    return Consumer<MyState>(
+      builder: (context, myState,child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("My Reservations"),
           ),
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown('SELECT FLOOR', selectedFloor, (value) {
-                setState(() {
-                  selectedFloor = value;
-                  selectedRoom = null;
-                });
-              }, _getAvailableFloors()),
-            ),
-          ),
-
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDropdown(
-                'FACILITY STATUS',
-                facilityStatus,
-                (value) {
-                  setState(() => facilityStatus = value);
-                },
-                ['Available', 'Not Available', 'Both'],
-              ),
-            ),
-          ),
-
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _buildDateTimePicker('Start Date & Time', startDateTime, (value) {
-                setState(() => startDateTime = value);
-              }),
-            ),
-          ),
-          Div(
-            divison: const Division(
-              colL: 3,
-              colM: 4,
-              colS: 12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ElevatedButton(
-                onPressed: () {
-                  Provider.of<UserBookingState>(context, listen: false).toggleVisibility();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff1E88E5),
-                  minimumSize: const Size.fromHeight(52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
+          body: SingleChildScrollView(
+            
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: 1600,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
+                        child: Responsive(children: <Widget>[
+                          Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: _buildDropdown('SELECT BUILDING', selectedBuilding, (value) {
+                                setState(() {
+                                  selectedBuilding = value;
+                                  selectedFloor = null;
+                                  selectedRoom = null;
+                                });
+                              }, buildingFloors.keys.toList()),
+                            ),
+                          ),
+                          Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: _buildDropdown('SELECT FLOOR', selectedFloor, (value) {
+                                setState(() {
+                                  selectedFloor = value;
+                                  selectedRoom = null;
+                                });
+                              }, _getAvailableFloors()),
+                            ),
+                          ),
+                          Div(
+                          divison: const Division(
+                            colL: 3,
+                            colM: 6,
+                            colS: 12,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: _buildDropdown('SELECT ROOM', selectedRoom, (value) {
+                              setState(() {
+                                selectedRoom = value;
+                              });
+                            }, _getAvailableRooms()),
+                          ),
+                        ),
+                          Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: _buildDropdown(
+                                'FACILITY STATUS',
+                                facilityStatus,
+                                (value) {
+                                  setState(() => facilityStatus = value);
+                                },
+                                ['Available', 'Not Available', 'Both'],
+                              ),
+                            ),
+                          ),
+                          MediaQuery.of(context).size.width >900? Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Container(),
+                            ):const SizedBox.shrink(),
+                          Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: _buildDateTimePicker('Start Date & Time', startDateTime, (value) {
+                                setState(() => startDateTime = value);
+                              }),
+                            ),
+                          ),
+                          Div(
+                            divison: const Division(
+                              colL: 3,
+                              colM: 6,
+                              colS: 12,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Provider.of<MyState>(context, listen: false).toggleUserReq();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff1E88E5),
+                                  minimumSize: const Size.fromHeight(52),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: const Text(style: TextStyle(color: Colors.white), 'SEARCH'),
+                              ),
+                            ),
+                          ),
+                           MediaQuery.of(context).size.width >900
+                      ? Div(
+                          divison: const Division(
+                            colL: 3,
+                            colM: 6,
+                            colS: 12,
+                          ),
+                          child: Container(
+                          ),
+                        )
+                      : const SizedBox.shrink()
+                        ]),
+                      ),
+                    ),
+                        myState.userReqVisible?
+                        Container(
+                          color: Colors.white,
+                          // width: 1200,
+                          child: const UserRequestTable(),
+                          ):Container(),
+                  ],
                 ),
-                child: const Text(style: TextStyle(color: Colors.white), 'SEARCH'),
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(left: 8, top: 16, bottom: 6),
-            child: const Text(
-              style: TextStyle(
-                color: Color(0xFF92929D),
-                fontSize: 14,
-                fontFamily: 'Urbanist',
-                fontWeight: FontWeight.w400,
-                height: 0,
-                letterSpacing: 0.09,
-              ),
-              "Note: Booking priority will be given to academic uses first.",
-            ),
-          ),
-        ]),
-      ),
+        );
+      }
     );
   }
   List<String> _getAvailableFloors() {

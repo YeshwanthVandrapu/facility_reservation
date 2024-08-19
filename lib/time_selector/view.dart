@@ -3,17 +3,10 @@ import 'package:flutter/material.dart';
 import '../timeSlotPopup/view.dart';
 
 
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: SeminarHallScreen(),
-//     );
-//   }
-// }
-
 class SeminarHallScreen extends StatefulWidget {
+
+  final bool isEditable;
+  const SeminarHallScreen({super.key, required this.isEditable});
   @override
   _SeminarHallScreenState createState() => _SeminarHallScreenState();
 }
@@ -30,10 +23,11 @@ class _SeminarHallScreenState extends State<SeminarHallScreen> {
       firstDate: DateTime(2020),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   _selectTime(BuildContext context, bool isStartTime) async {

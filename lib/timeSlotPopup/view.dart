@@ -62,6 +62,7 @@ class TimeSlotPopup extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
+                            overflow: TextOverflow.ellipsis,
                             text: TextSpan(
                               style: const TextStyle(
                                 color: Color(0xFF1E1E1E),
@@ -84,42 +85,43 @@ class TimeSlotPopup extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const DateSelectorWithIcon(),
+                          MediaQuery.of(context).size.width>850? const DateSelectorWithIcon():Container(),
                         ],
                       ),
+                      MediaQuery.of(context).size.width<850? const DateSelectorWithIcon():Container(),
                       const SizedBox(height: 16),
                       const Text(
                         'Available Time Slots',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
-                      Wrap(
-                        spacing: 36,
-                        runSpacing: 24,
-                        children: timeSlots.map((slot) {
-                          bool isBooked = bookedSlots.contains(slot);
-                          return OutlinedButton(
-                            onPressed: () {
-                              // Handle slot selection logic here
-                            },
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(
-                                color: isBooked ? Colors.grey : Colors.green,
-                                width: 1,
+                      Center(
+                        child: Wrap(
+                          spacing: 36,
+                          runSpacing: 24,
+                          children: timeSlots.map((slot) {
+                            bool isBooked = bookedSlots.contains(slot);
+                            return OutlinedButton(
+                              onPressed: null,
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                  color: isBooked ? Colors.grey : Colors.green,
+                                  width: 1,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                backgroundColor: Colors.white,
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                              child: Text(
+                                slot,
+                                style: TextStyle(
+                                  color: isBooked ? Colors.grey : Colors.green,
+                                ),
                               ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: Text(
-                              slot,
-                              style: TextStyle(
-                                color: isBooked ? Colors.grey : Colors.green,
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ],
                   ),

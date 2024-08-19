@@ -42,12 +42,12 @@ class _FiltersState extends State<Filters> {
     return Container(
       margin: const EdgeInsets.only(),
       child: Padding(
-        padding: const EdgeInsets.only(left: 48, right: 48, top: 24, bottom: 8),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
         child: Responsive(children: <Widget>[
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -64,7 +64,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -80,7 +80,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -99,7 +99,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -118,7 +118,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -136,7 +136,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -155,7 +155,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(
@@ -168,7 +168,7 @@ class _FiltersState extends State<Filters> {
           Div(
             divison: const Division(
               colL: 3,
-              colM: 4,
+              colM: 6,
               colS: 12,
             ),
             child: Padding(

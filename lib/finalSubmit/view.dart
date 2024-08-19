@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../time_selector/view.dart';
+import '../user_request/user_request_filter.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -84,7 +85,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             ],
                           ),
                         ),
-                         SeminarHallScreen(),
+                         const SeminarHallScreen(isEditable: true),
                         const SizedBox(height: 16),
                         TextField(
                           controller: bookingPurposeController,
@@ -279,7 +280,7 @@ TableRow _buildTableRow(String label) {
           )),
           content: RichText(
             text: TextSpan(
-              text: 'Your Reservation request (Reservation Number) has been sent to the approver for review and further processing. \nYou can check the status of your request ',
+              text: 'Your Reservation request SRCVK-87623 has been sent to the approver for review and further processing. \nYou can check the status of your request ',
               style: const TextStyle(color: Colors.black), // Set the default text color
               children: [
                 TextSpan(
@@ -291,7 +292,7 @@ TableRow _buildTableRow(String label) {
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       // Navigate to the main page when "here" is clicked
-                      Navigator.pushNamed(context, '/'); // Update with your route name
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserRequestFilter())); // Update with your route name
                     },
                 ),
                 const TextSpan(
@@ -323,7 +324,7 @@ TableRow _buildTableRow(String label) {
                           fontFamily: 'Urbanist'),
                     ),
                     onPressed: () {
-                      // Implement booking logic here
+                      // Implement booking logic 
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
