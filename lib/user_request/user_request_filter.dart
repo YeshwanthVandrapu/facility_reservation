@@ -1,11 +1,8 @@
 // import 'package:facility_reservation/state_management/user_booking_state.dart';
 import 'package:facility_reservation/state_management/state_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_ui/responsive_ui.dart';
-
-import '../datatable/test.dart';
 import 'user_request_table.dart';
 
 class UserRequestFilter extends StatefulWidget {
@@ -47,6 +44,13 @@ class _UserRequestFilterState extends State<UserRequestFilter> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("My Reservations"),
+            leading: IconButton(
+          icon: const Icon(Icons.home), 
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Provider.of<MyState>(context, listen: false).toggleVisibility();
+          },
+        ),
           ),
           body: SingleChildScrollView(
             
@@ -200,6 +204,8 @@ class _UserRequestFilterState extends State<UserRequestFilter> {
       }
     );
   }
+
+  
   List<String> _getAvailableFloors() {
     if (selectedBuilding != null) {
       return buildingFloors[selectedBuilding!]!;

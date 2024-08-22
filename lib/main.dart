@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:facility_reservation/admin/admin_filter.dart';
+import 'package:facility_reservation/admin/admin_main.dart';
 import 'package:facility_reservation/booking/controller.dart';
 import 'package:facility_reservation/event/controller.dart';
-import 'package:facility_reservation/filters/test.dart';
+import 'package:facility_reservation/filters/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -27,13 +29,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
+        useMaterial3: true, 
       ),
       home: const MyHomePage(title: 'Facility Management'),
+      debugShowCheckedModeBanner: false, 
     );
   }
 }
@@ -70,13 +74,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Consumer<MyState>(
       builder: (context, myState, child) {
-        return MaterialApp(
-          home: SafeArea(
+          return SafeArea(
             child: Scaffold(
               backgroundColor: const Color(0xfff8f7f7),
               appBar: AppBar(
-                title: Text(widget.title),
+              title: Text(widget.title),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    // Navigate to the other page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AdminMain()), // Replace `AdminFilter` with your target page
+                    );
+                  },
+                  child: const Text(
+                    'Admin Options',
+                    style: TextStyle(color: Colors.black), // Set the text color to match your design
+                  ),
+                ),
+              ],
               ),
+            
               body: SingleChildScrollView(
                 child: Align(
                   alignment: Alignment.topCenter,   
@@ -144,8 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //   ],
               // ),
             ),
-            ),
-        );
+            );
       }
     );
   }

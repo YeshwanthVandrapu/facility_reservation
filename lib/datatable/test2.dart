@@ -1,4 +1,10 @@
+// import 'package:facility_reservation/finalSubmit/Responsive_test.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// import '../finalSubmit/view.dart';
+import '../finalSubmit/Responsive_test.dart';
+import '../state_management/state_provider.dart';
 import '../timeSlotPopup/view.dart';
 
 class ResultData extends StatefulWidget {
@@ -14,6 +20,8 @@ class _ResultDataState extends State<ResultData> {
 
   @override
   Widget build(BuildContext context) {
+    final filters = Provider.of<MyState>(context).filters;
+    
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
@@ -43,7 +51,7 @@ class _ResultDataState extends State<ResultData> {
               DataColumn(label: Text("Availability")),
               DataColumn(label: Text("Select")),
             ],
-            source: MyData(context),
+            source: MyData(context, filters),
             horizontalMargin: 30,
             showFirstLastButtons: true,
             rowsPerPage: _rowsPerPage,
@@ -63,7 +71,32 @@ class _ResultDataState extends State<ResultData> {
 
 class MyData extends DataTableSource {
   final BuildContext context;
-  MyData(this.context);
+  final Map<String, dynamic> filters;
+  MyData(this.context, this.filters);
+
+    List<Map<String, String>> get filteredData {
+    return data.where((row) {
+      if (filters['building'] != null && row['Building/Block'] != filters['building']) return false;
+      if (filters['floor'] != null && row['Floor'] != filters['floor']) return false;
+      if (filters['room'] != null && row['Room Number/Name'] != filters['room']) return false;
+      if (filters['attendeeCapacity'] != null) {
+        int capacity = int.tryParse(row['Attendee Capacity'] ?? '') ?? 0;
+        int filterCapacity = int.tryParse(filters['attendeeCapacity']) ?? 0;
+        if (filterCapacity > 60 && capacity <= 60) return false;
+        if (filterCapacity <= 60 && capacity != filterCapacity) return false;
+      }
+      if (filters['facilityStatus'] != null && filters['facilityStatus'] != 'Both') {
+        if (filters['facilityStatus'] == 'Available' && row['Availability'] != 'Yes') return false;
+        if (filters['facilityStatus'] == 'Not Available' && row['Availability'] != 'Not Available') return false;
+      }
+      if (filters['facilityType'] != null) {
+        bool isSeminarHall = row['Room Number/Name']?.toLowerCase().contains('seminar') ?? false;
+        if (filters['facilityType'] == 'Seminar Hall' && !isSeminarHall) return false;
+        if (filters['facilityType'] == 'Class Room' && isSeminarHall) return false;
+      }
+      return true;
+    }).toList();
+  }
 
   List<Map<String, String>> data = [
     {
@@ -150,7 +183,10 @@ class MyData extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
+    if (index >= filteredData.length) return null;
+    final row = filteredData[index];
     return DataRow(
+      
       cells: [
         DataCell(Text(data[index]['Building/Block'] ?? '')),
         DataCell(Text(data[index]['Floor'] ?? '')),
@@ -160,7 +196,10 @@ class MyData extends DataTableSource {
         DataCell(Text(data[index]['Availability'] ?? '')),
         DataCell(Center(
           child: TextButton(
-            onPressed: () => _showSelectDialog(index),
+            // onPressed: () => _showSelectDialog(index),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookingDetailsPage()));
+            },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(50, 20),
@@ -175,6 +214,10 @@ class MyData extends DataTableSource {
       }),
     );
   }
+
+
+  
+
 
   void _showSelectDialog(int index) {
     showDialog(

@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_ui/responsive_ui.dart';
 
+import '../datePicker/view.dart';
 import '../sfcalender/view.dart';
 import '../time_selector/view.dart';
 import '../user_request/user_request_filter.dart';
@@ -15,11 +17,37 @@ class BookingDetailsPage extends StatefulWidget {
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
   // bool hasSpecialNeeds = false;
   // TextEditingController bookingPurposeController = TextEditingController();
-
+  String? selectedFloor;
+  String? selectedRoom;
+  String? selectedBuilding;
+  DateTime? startDateTime;
+  DateTime? endDateTime;
   bool hasSpecialNeeds = false;
   TextEditingController bookingPurposeController = TextEditingController();
   Map<String, String> dropdownValues = {};
   Map<String, TextEditingController> numberControllers = {};
+
+
+  
+
+
+    final Map<String, List<String>> buildingFloors = {
+    'JSW ACADEMIC BLOCK': ['Ground Floor', 'First Floor', 'Second Floor', 'Third Floor'],
+    'New Academic Block': ['Ground Floor', 'First Floor'],
+    'Library': ['First Floor'],
+  };
+
+  final Map<String, List<String>> floorRooms = {
+    'JSW ACADEMIC BLOCK Ground Floor': ['Seminar Hall 1', 'Seminar Hall 2', 'Seminar Hall 3','Atrium L','Atrium R'],
+    'JSW ACADEMIC BLOCK First Floor': ['Classroom 1A', 'Classroom 1B', 'Classroom 1C','Classroom 1D','Classroom 1E','Trading Floor','1G'],
+    'JSW ACADEMIC BLOCK Second Floor': ['Room 1', 'Room 2', 'Room 3'],
+    'JSW ACADEMIC BLOCK Third Floor': ['Room 1', 'Room 2', 'Room 3'],
+    'New Academic Block Ground Floor': ['Room 1', 'Room 2', 'Room 3'],
+    'New Academic Block First Floor': ['Room 1', 'Room 2', 'Room 3'],
+    'Library First Floor': ['M-1', 'M-2', 'M-3'],
+  };
+
+  final List<String> dates =["21-08-2024","22-08-2024","23-08-2024","24-08-2024","25-08-2024","26-08-2024"];
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +79,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Responsive(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Seminar Hall 1',
@@ -65,30 +93,67 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             ),
                         ),
                         const SizedBox(height: 16,),
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(color: Color(0xFF1E1E1E),
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w500,
-                                height: 1.5),
-                            children: [
-                              const TextSpan(text: 'Ground Floor | JSW Academic Block | '),
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Icon(
-                                  Icons.people,
-                                  size: 18,
-                                  color: Colors.grey[600],
+                        Div(
+                          divison: const Division(colS: 12),
+                          child: RichText(
+                            text: TextSpan(
+                              style: const TextStyle(color: Color(0xFF1E1E1E),
+                                  fontSize: 16,
+                                  fontFamily: 'Urbanist',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.5),
+                              children: [
+                                const TextSpan(text: 'Ground Floor | JSW Academic Block | '),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.people,
+                                    size: 18,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
-                              ),
-                              const TextSpan(text: ' 100'),
-                            ],
+                                const TextSpan(text: ' 100'),
+                              ],
+                            ),
                           ),
                         ),
-                         const SeminarHallScreen(isEditable: true),
-                         const RoomAvailability(),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 24),  
+                        const Div(
+                          divison: Division(
+                            colS: 12,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                           child:  RoomAvailability(),
+                          ),
+                        ),
+                        Div(
+                          divison: const Division(
+                            colL: 3,
+                            colM: 6,
+                            colS: 12,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: _buildDateTimePicker('Start Date & Time', startDateTime, (value) {
+                              setState(() => startDateTime = value);
+                            }),
+                          ),
+                        ),
+                        Div(
+                          divison: const Division(
+                            colL: 3,
+                            colM: 6,
+                            colS: 12,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: _buildDateTimePicker('End Date & Time',endDateTime, (value) {
+                              setState(() => endDateTime = value);
+                            }),
+                          ),
+                        ),
+                        const SizedBox(width: 16,),
                         TextField(
                           controller: bookingPurposeController,
                           maxLines: 4,
@@ -166,6 +231,80 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           ),
         ),
       ),
+    );
+  }
+
+
+  Widget _buildDateTimePicker(String label, DateTime? dateTime, ValueChanged<DateTime?> onChanged) {
+    return InkWell(
+      onTap: () async {
+        final date = await showDatePicker(
+          context: context,
+          initialDate: dateTime ?? DateTime.now(),
+          firstDate: dateTime ?? DateTime.now(),
+          lastDate: DateTime(2100),
+        );
+        if (date != null) {
+          final time = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.fromDateTime(dateTime ?? DateTime.now()),
+          );
+          if (time != null) {
+            onChanged(DateTime(
+              date.year,
+              date.month,
+              date.day,
+              time.hour,
+              time.minute,
+            ));
+          }
+        }
+      },
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        child: Text(
+          dateTime != null
+              ? '${dateTime.toLocal().toString().split(' ')[0]} ${TimeOfDay.fromDateTime(dateTime).format(context)}'
+              : 'Select Date and Time',
+        ),
+      ),
+    );
+  }
+
+  List<String> _getAvailableRooms() {
+    if (selectedBuilding != null && selectedFloor != null) {
+      return floorRooms['$selectedBuilding $selectedFloor']!;
+    } else if (selectedBuilding != null) {
+      return floorRooms.entries
+          .where((entry) => entry.key.startsWith(selectedBuilding!))
+          .expand((entry) => entry.value)
+          .toList();
+    } else if (selectedFloor != null) {
+      return floorRooms.entries
+          .where((entry) => entry.key.endsWith(selectedFloor!))
+          .expand((entry) => entry.value)
+          .toList();
+    }
+    return floorRooms.values.expand((rooms) => rooms).toList();
+  }
+
+  Widget _buildDropdown1(String hint, String? value,
+      ValueChanged<String?> onChanged, IconData icon, List<String> options,
+      {bool isEnabled = true}) {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        labelText: hint,
+        prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(),
+      ),
+      value: value,
+      onChanged: isEnabled ? onChanged : null,
+      items: options
+          .map((option) => DropdownMenuItem(value: option, child: Text(option)))
+          .toList(),
     );
   }
 
@@ -264,8 +403,6 @@ TableRow _buildTableRow(String label) {
     }
     return numberControllers[label]!;
   }
-
-
 
   void _showConfirmationDialog(BuildContext context) {
     showDialog(

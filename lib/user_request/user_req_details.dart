@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_ui/responsive_ui.dart';
 
+import '../state_management/state_provider.dart';
 import '../time_selector/view.dart';
 import 'user_request_filter.dart';
 
@@ -30,7 +32,15 @@ class _UserReqDetailsState extends State<UserReqDetails> {
       backgroundColor: const Color(0xfff8f7f7),
       appBar: AppBar(
         title: const Text("My Reservation Details"),
+        leading: IconButton(
+          icon: const Icon(Icons.home), // Replace with any icon you prefer
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Provider.of<MyState>(context, listen: false).toggleVisibility();
+          },
+        ),
       ),
+      
       body: SingleChildScrollView(
         child: Align(
           alignment: Alignment.topCenter,

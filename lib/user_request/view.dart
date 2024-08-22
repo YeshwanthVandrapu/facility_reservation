@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:facility_reservation/booking/controller.dart';
 import 'package:facility_reservation/event/controller.dart';
-import 'package:facility_reservation/filters/test.dart';
+import 'package:facility_reservation/filters/view.dart';
 import 'package:facility_reservation/state_management/user_booking_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
