@@ -1,0 +1,202 @@
+import 'dart:convert';
+
+class Building {
+  final String name;
+  final List<Floor> floors;
+
+  Building({required this.name, required this.floors});
+
+  factory Building.fromJson(Map<String, dynamic> json) {
+    return Building(
+      name: json['name'],
+      floors: (json['floors'] as List).map((f) => Floor.fromJson(f)).toList(),
+    );
+  }
+}
+
+class Floor {
+  final String name;
+  final List<Room> rooms;
+
+  Floor({required this.name, required this.rooms});
+
+  factory Floor.fromJson(Map<String, dynamic> json) {
+    return Floor(
+      name: json['name'],
+      rooms: (json['rooms'] as List).map((r) => Room.fromJson(r)).toList(),
+    );
+  }
+}
+
+class Room {
+  final String name;
+  final int capacity;
+  final bool hasProjector;
+  final List<Booking> bookings;
+
+  Room({required this.name, required this.capacity, required this.hasProjector, required this.bookings});
+
+  factory Room.fromJson(Map<String, dynamic> json) {
+    return Room(
+      name: json['name'],
+      capacity: json['capacity'],
+      hasProjector: json['hasProjector'],
+      bookings: (json['bookings'] as List).map((b) => Booking.fromJson(b)).toList(),
+    );
+  }
+
+  bool isAvailable(DateTime start, DateTime end) {
+    return !bookings.any((booking) =>
+      (booking.startTime.isBefore(end) && booking.endTime.isAfter(start)));
+  }
+}
+
+// class Booking {
+//   final DateTime startTime;
+//   final DateTime endTime;
+
+//   Booking({required this.startTime, required this.endTime});
+
+//   factory Booking.fromJson(Map<String, dynamic> json) {
+//     return Booking(
+//       startTime: DateTime.parse(json['startTime']),
+//       endTime: DateTime.parse(json['endTime']),
+//     );
+//   }
+// }
+
+
+class Booking {
+  final DateTime startTime;
+  final DateTime endTime;
+
+  Booking({required this.startTime, required this.endTime});
+
+  factory Booking.fromJson(Map<String, dynamic> json) {
+    return Booking(
+      startTime: DateTime(
+        json['startTime'][0],
+        json['startTime'][1],
+        json['startTime'][2],
+        json['startTime'][3],
+        json['startTime'][4],
+      ),
+      endTime: DateTime(
+        json['endTime'][0],
+        json['endTime'][1],
+        json['endTime'][2],
+        json['endTime'][3],
+        json['endTime'][4],
+      ),
+    );
+  }
+}
+
+
+import 'dart:convert';
+
+void main() {
+  // Parse the JSON
+  final jsonString = ''; // Replace with your actual JSON string
+  final jsonData = json.decode(jsonString);
+  final buildings = (jsonData['buildings'] as List).map((b) => Building.fromJson(b)).toList();
+
+  // Example usage of various filters and search functions
+  searchAndFilterRooms(buildings);
+}
+
+void searchAndFilterRooms(List<Building> buildings) {
+  // 1. Find all available rooms in JSW ACADEMIC BLOCK on the Ground Floor for a given time slot
+  print('1. Available rooms in JSW ACADEMIC BLOCK, Ground Floor:');
+  findAvailableRooms(
+    buildings, 
+    'JSW ACADEMIC BLOCK', 
+    'Ground Floor', 
+    DateTime(2024, 8, 10, 9, 0), 
+    DateTime(2024, 8, 10, 11, 0)
+  );
+
+  // 2. Find all rooms with a projector and capacity of at least 50
+  print('\n2. Rooms with projector and capacity >= 50:');
+  findRoomsByCapacityAndProjector(buildings, 50, true);
+
+  // 3. Search for rooms by name containing a specific string
+  print('\n3. Rooms with "Seminar" in the name:');
+  searchRoomsByName(buildings, 'Seminar');
+
+  // 4. Find all available rooms across all buildings for a specific date and time range
+  print('\n4. All available rooms on August 11, 2024, from 10 AM to 12 PM:');
+  findAllAvailableRooms(
+    buildings, 
+    DateTime(2024, 8, 11, 10, 0), 
+    DateTime(2024, 8, 11, 12, 0)
+  );
+
+  // 5. Find rooms in a specific building with no bookings for an entire day
+  print('\n5. Rooms in New Academic Block with no bookings on August 13, 2024:');
+  findRoomsWithNoDailyBookings(
+    buildings, 
+    'New Academic Block', 
+    DateTime(2024, 8, 13)
+  );
+}
+
+void findAvailableRooms(List<Building> buildings, String buildingName, String floorName, DateTime startTime, DateTime endTime) {
+  final targetBuilding = buildings.firstWhere((b) => b.name == buildingName);
+  final targetFloor = targetBuilding.floors.firstWhere((f) => f.name == floorName);
+  final availableRooms = targetFloor.rooms.where((room) => room.isAvailable(startTime, endTime)).toList();
+
+  for (var room in availableRooms) {
+    print('${room.name} (Capacity: ${room.capacity}, Projector: ${room.hasProjector ? 'Yes' : 'No'})');
+  }
+}
+
+void findRoomsByCapacityAndProjector(List<Building> buildings, int minCapacity, bool requireProjector) {
+  for (var building in buildings) {
+    for (var floor in building.floors) {
+      for (var room in floor.rooms) {
+        if (room.capacity >= minCapacity && (!requireProjector || room.hasProjector)) {
+          print('${building.name}, ${floor.name}: ${room.name} (Capacity: ${room.capacity}, Projector: ${room.hasProjector ? 'Yes' : 'No'})');
+        }
+      }
+    }
+  }
+}
+
+void searchRoomsByName(List<Building> buildings, String searchTerm) {
+  for (var building in buildings) {
+    for (var floor in building.floors) {
+      for (var room in floor.rooms) {
+        if (room.name.toLowerCase().contains(searchTerm.toLowerCase())) {
+          print('${building.name}, ${floor.name}: ${room.name}');
+        }
+      }
+    }
+  }
+}
+
+void findAllAvailableRooms(List<Building> buildings, DateTime startTime, DateTime endTime) {
+  for (var building in buildings) {
+    for (var floor in building.floors) {
+      for (var room in floor.rooms) {
+        if (room.isAvailable(startTime, endTime)) {
+          print('${building.name}, ${floor.name}: ${room.name}');
+        }
+      }
+    }
+  }
+}
+
+void findRoomsWithNoDailyBookings(List<Building> buildings, String buildingName, DateTime date) {
+  final targetBuilding = buildings.firstWhere((b) => b.name == buildingName);
+  for (var floor in targetBuilding.floors) {
+    for (var room in floor.rooms) {
+      if (!room.bookings.any((booking) => 
+          booking.startTime.year == date.year && 
+          booking.startTime.month == date.month && 
+          booking.startTime.day == date.day)) {
+        print('${floor.name}: ${room.name}');
+      }
+    }
+  }
+}

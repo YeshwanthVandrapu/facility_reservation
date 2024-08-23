@@ -1,7 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../sfcalender/view.dart';
 import '../time_selector/view.dart';
 import '../user_request/user_request_filter.dart';
 
@@ -87,7 +85,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           ),
                         ),
                          const SeminarHallScreen(isEditable: true),
-                         const RoomAvailability(),
+                        //  const RoomAvailability(),
                         const SizedBox(height: 16),
                         TextField(
                           controller: bookingPurposeController,

@@ -1,0 +1,291 @@
+{
+    "buildings": [
+      {
+        "name": "JSW ACADEMIC BLOCK",
+        "floors": [
+          {
+            "name": "Ground Floor",
+            "rooms": [
+              {
+                "name": "Seminar Hall 1",
+                "capacity": 100,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 3, 15],
+                    "endTime": [2024, 8, 8, 8, 0]
+                  },
+                  {
+                    "startTime": [2024, 8, 9, 5, 45],
+                    "endTime": [2024, 8, 9, 10, 15]
+                  },
+                  {
+                    "startTime": [2024, 8, 12, 14, 0],
+                    "endTime": [2024, 8, 12, 16, 30]
+                  }
+                ]
+              },
+              {
+                "name": "Seminar Hall 2",
+                "capacity": 100,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 10, 9, 0],
+                    "endTime": [2024, 8, 10, 12, 0]
+                  },
+                  {
+                    "startTime": [2024, 8, 11, 13, 30],
+                    "endTime": [2024, 8, 11, 15, 30]
+                  }
+                ]
+              },
+              {
+                "name": "Seminar Hall 3",
+                "capacity": 100,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 9, 10, 0],
+                    "endTime": [2024, 8, 9, 13, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Atrium L",
+                "capacity": 50,
+                "hasProjector": false,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 15, 0],
+                    "endTime": [2024, 8, 8, 17, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Atrium R",
+                "capacity": 50,
+                "hasProjector": false,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 10, 14, 0],
+                    "endTime": [2024, 8, 10, 16, 0]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "First Floor",
+            "rooms": [
+              {
+                "name": "Classroom 1A",
+                "capacity": 35,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 9, 0],
+                    "endTime": [2024, 8, 8, 11, 0]
+                  },
+                  {
+                    "startTime": [2024, 8, 9, 13, 0],
+                    "endTime": [2024, 8, 9, 15, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Classroom 1B",
+                "capacity": 35,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 10, 10, 0],
+                    "endTime": [2024, 8, 10, 12, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Classroom 1C",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 11, 14, 0],
+                    "endTime": [2024, 8, 11, 16, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Classroom 1D",
+                "capacity": 35,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 9, 9, 0],
+                    "endTime": [2024, 8, 9, 11, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Classroom 1E",
+                "capacity": 35,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 13, 0],
+                    "endTime": [2024, 8, 8, 15, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Trading Floor",
+                "capacity": 50,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 12, 10, 0],
+                    "endTime": [2024, 8, 12, 12, 0]
+                  }
+                ]
+              },
+              {
+                "name": "1G",
+                "capacity": 30,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 11, 9, 0],
+                    "endTime": [2024, 8, 11, 11, 0]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "New Academic Block",
+        "floors": [
+          {
+            "name": "Ground Floor",
+            "rooms": [
+              {
+                "name": "Room 1",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 10, 0],
+                    "endTime": [2024, 8, 8, 12, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Room 2",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 9, 14, 0],
+                    "endTime": [2024, 8, 9, 16, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Room 3",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 10, 9, 0],
+                    "endTime": [2024, 8, 10, 11, 0]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "First Floor",
+            "rooms": [
+              {
+                "name": "Room 1",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 11, 13, 0],
+                    "endTime": [2024, 8, 11, 15, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Room 2",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 12, 10, 0],
+                    "endTime": [2024, 8, 12, 12, 0]
+                  }
+                ]
+              },
+              {
+                "name": "Room 3",
+                "capacity": 40,
+                "hasProjector": true,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 8, 15, 0],
+                    "endTime": [2024, 8, 8, 17, 0]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Library",
+        "floors": [
+          {
+            "name": "First Floor",
+            "rooms": [
+              {
+                "name": "M-1",
+                "capacity": 20,
+                "hasProjector": false,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 9, 10, 0],
+                    "endTime": [2024, 8, 9, 12, 0]
+                  }
+                ]
+              },
+              {
+                "name": "M-2",
+                "capacity": 20,
+                "hasProjector": false,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 10, 14, 0],
+                    "endTime": [2024, 8, 10, 16, 0]
+                  }
+                ]
+              },
+              {
+                "name": "M-3",
+                "capacity": 20,
+                "hasProjector": false,
+                "bookings": [
+                  {
+                    "startTime": [2024, 8, 11, 9, 0],
+                    "endTime": [2024, 8, 11, 11, 0]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

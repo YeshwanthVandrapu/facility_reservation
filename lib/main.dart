@@ -1,13 +1,10 @@
-import 'dart:convert';
-import 'package:facility_reservation/admin/admin_filter.dart';
 import 'package:facility_reservation/admin/admin_main.dart';
 import 'package:facility_reservation/booking/controller.dart';
 import 'package:facility_reservation/event/controller.dart';
 import 'package:facility_reservation/filters/view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'datatable/test2.dart';
+import 'datatable/view.dart';
 import 'package:provider/provider.dart';
 import 'state_management/state_provider.dart';
 
@@ -51,24 +48,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Map<String, List<dynamic>> _items = {};
+  // Map<String, List<dynamic>> _items = {};
 
-  Future<void> readJson() async {
-    try {
-      final String response = await rootBundle.loadString('res/data/test.json');
-      final data = json.decode(response);
-      setState(() {
-        if (data is Map<String, dynamic>) {
-          _items = data.map((key, value) => MapEntry(key, List<dynamic>.from(value)));
-          print("Data loaded successfully.");
-        } else {
-          print("Unexpected JSON structure: $data");
-        }
-      });
-    } catch (e) {
-      print("Error reading JSON: $e");
-    }
-  }
+  // Future<void> readJson() async {
+  //   try {
+  //     final String response = await rootBundle.loadString('res/data/test.json');
+  //     final data = json.decode(response);
+  //     setState(() {
+  //       if (data is Map<String, dynamic>) {
+  //         _items = data.map((key, value) => MapEntry(key, List<dynamic>.from(value)));
+  //         print("Data loaded successfully.");
+  //       } else {
+  //         print("Unexpected JSON structure: $data");
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print("Error reading JSON: $e");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,39 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: const ResultData()
                           ):Container(),
                         
-                        // Container(
-                        //   color: Colors.white,
-                        //   // width: 1200,
-                        //   child: const ResultData()
-                        //   )
                       ],
                     ),
                     ),
                   ),
                 ),
-              // Column(
-              //   children: [
-              //     TextButton(
-              //       onPressed: readJson,
-              //       child: const Text("Get data"),
-              //     ),
-              //     Expanded(
-              //       child: ListView.builder(
-              //         itemCount: _items.length,
-              //         itemBuilder: (context, index) {
-              //           String key = _items.keys.elementAt(index);
-              //           return ExpansionTile(
-              //             title: Text(key),
-              //             children: _items[key]!
-              //                 .map((item) => ListTile(title: Text(item.toString())))
-              //                 .toList(),
-              //           );
-              //         },
-              //       ),
-              //     ),
-          
-              //   ],
-              // ),
             ),
             );
       }

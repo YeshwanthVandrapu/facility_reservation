@@ -94,7 +94,7 @@ class AdminTable extends StatefulWidget {
 
 class _AdminTableState extends State<AdminTable> {
     int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-  final List<int> _availableRowsPerPage = [5, 10, 20];
+  // final List<int> _availableRowsPerPage = [5, 10, 20];
   bool _selectAll = false;
 
 

@@ -17,7 +17,9 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 // }
 
 class RoomAvailability extends StatefulWidget {
-  const RoomAvailability({super.key});
+  final String roomNumber;
+
+  const RoomAvailability({super.key, required this.roomNumber});
 
   @override
   _RoomAvailabilityState createState() => _RoomAvailabilityState();

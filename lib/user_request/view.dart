@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
 
-import '../datatable/test2.dart';
+import '../datatable/view.dart';
 
 
 

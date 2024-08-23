@@ -1,22 +1,21 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_ui/responsive_ui.dart';
-
-import '../datePicker/view.dart';
 import '../sfcalender/view.dart';
-import '../time_selector/view.dart';
+
 import '../user_request/user_request_filter.dart';
 
 class BookingDetailsPage extends StatefulWidget {
-  const BookingDetailsPage({super.key});
+  final String roomNumber;
+
+  const BookingDetailsPage({super.key, required this.roomNumber});
 
   @override
-  _BookingDetailsPageState createState() => _BookingDetailsPageState();
+  BookingDetailsPageState createState() => BookingDetailsPageState();
 }
 
-class _BookingDetailsPageState extends State<BookingDetailsPage> {
-  // bool hasSpecialNeeds = false;
-  // TextEditingController bookingPurposeController = TextEditingController();
+class BookingDetailsPageState extends State<BookingDetailsPage> {
+  
   String? selectedFloor;
   String? selectedRoom;
   String? selectedBuilding;
@@ -48,6 +47,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   };
 
   final List<String> dates =["21-08-2024","22-08-2024","23-08-2024","24-08-2024","25-08-2024","26-08-2024"];
+  
+  var roomNumber;
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +127,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(8),
-                           child:  RoomAvailability(),
+                           child:  RoomAvailability(roomNumber: 'Room 101',),
                           ),
                         ),
                         Div(

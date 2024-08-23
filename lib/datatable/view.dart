@@ -1,305 +1,254 @@
+// import 'package:facility_reservation/finalSubmit/Responsive_test.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+// import '../finalSubmit/view.dart';
+// import '../finalSubmit/Responsive_test.dart';
+import '../finalSubmit/Responsive_test.dart';
+import '../state_management/state_provider.dart';
+// import '../timeSlotPopup/view.dart';
 
-
-class MyDataSource extends DataTableSource {
-  static const List<int> _displayIndexToRawIndex = <int>[0, 3, 4, 5, 6];
-
-  late List<List<Comparable<Object>>> sortedData;
-  void setData(List<List<Comparable<Object>>> rawData, int sortColumn,
-      bool sortAscending) {
-    sortedData = rawData.toList()
-      ..sort((List<Comparable<Object>> a, List<Comparable<Object>> b) {
-        final Comparable<Object> cellA = a[_displayIndexToRawIndex[sortColumn]];
-        final Comparable<Object> cellB = b[_displayIndexToRawIndex[sortColumn]];
-        return cellA.compareTo(cellB) * (sortAscending ? 1 : -1);
-      });
-    notifyListeners();
-  }
+class ResultData extends StatefulWidget {
+  const ResultData({super.key});
 
   @override
-  int get rowCount => sortedData.length;
-
-  static DataCell cellFor(Object data) {
-    String value;
-    if (data is DateTime) {
-      value =
-          '${data.year}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}';
-    } else {
-      value = data.toString();
-    }
-    return DataCell(Text(value));
-  }
-
-  @override
-  DataRow? getRow(int index) {
-    return DataRow.byIndex(
-      index: sortedData[index][0] as int,
-      cells: <DataCell>[
-        cellFor(
-            'S${sortedData[index][1]}E${sortedData[index][2].toString().padLeft(2, '0')}'),
-        cellFor(sortedData[index][3]),
-        cellFor(sortedData[index][4]),
-        cellFor(sortedData[index][5]),
-        cellFor(sortedData[index][6]),
-      ],
-    );
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0;
+  State<ResultData> createState() => _ResultDataState();
 }
 
-void main() => runApp(const DataTableExampleApp());
-
-class DataTableExampleApp extends StatelessWidget {
-  const DataTableExampleApp({super.key});
+class _ResultDataState extends State<ResultData> {
+  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+  final List<int> _availableRowsPerPage = [5, 10, 20];
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SingleChildScrollView(
-        padding: EdgeInsets.all(12.0),
-        child: DataTableExample(),
+    final filters = Provider.of<MyState>(context).filters;
+    
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            cardColor: Colors.white,
+            dividerColor: Colors.grey.shade300,
+            dataTableTheme: DataTableThemeData(
+              headingRowColor: WidgetStateProperty.all(const Color(0xFFF7F6F6)),
+              dataRowColor: WidgetStateProperty.all(Colors.white),
+            ),
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Colors.white),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
+              ),
+            ),
+          ),
+          child: PaginatedDataTable(
+            columns: const [
+              DataColumn(label: Text("Building/Block")),
+              DataColumn(label: Text("Floor")),
+              DataColumn(label: Text("Room Number/Name")),
+              DataColumn(label: Text("Attendee Capacity")),
+              DataColumn(label: Text("Does it include a projector and AV setup?")),
+              DataColumn(label: Text("Availability")),
+              DataColumn(label: Text("Select")),
+            ],
+            source: MyData(context, filters),
+            horizontalMargin: 30,
+            showFirstLastButtons: true,
+            rowsPerPage: _rowsPerPage,
+            columnSpacing: 120,
+            availableRowsPerPage: _availableRowsPerPage,
+            onRowsPerPageChanged: (value) {
+              setState(() {
+                _rowsPerPage = value ?? PaginatedDataTable.defaultRowsPerPage;
+              });
+            },
+          ),
+        ),
       ),
     );
   }
 }
 
-class DataTableExample extends StatefulWidget {
-  const DataTableExample({super.key});
+class MyData extends DataTableSource {
+  final BuildContext context;
+  final Map<String, dynamic> filters;
+  MyData(this.context, this.filters);
 
-  @override
-  State<DataTableExample> createState() => _DataTableExampleState();
-}
-
-class _DataTableExampleState extends State<DataTableExample> {
-  final MyDataSource dataSource = MyDataSource()..setData(episodes, 0, true);
-
-  int _columnIndex = 0;
-  bool _columnAscending = true;
-
-  void _sort(int columnIndex, bool ascending) {
-    setState(() {
-      _columnIndex = columnIndex;
-      _columnAscending = ascending;
-      dataSource.setData(episodes, _columnIndex, _columnAscending);
-    });
+    List<Map<String, String>> get filteredData {
+    return data.where((row) {
+      if (filters['building'] != null && row['Building/Block'] != filters['building']) return false;
+      if (filters['floor'] != null && row['Floor'] != filters['floor']) return false;
+      if (filters['room'] != null && row['Room Number/Name'] != filters['room']) return false;
+      if (filters['attendeeCapacity'] != null) {
+        int capacity = int.tryParse(row['Attendee Capacity'] ?? '') ?? 0;
+        int filterCapacity = int.tryParse(filters['attendeeCapacity']) ?? 0;
+        if (filterCapacity > 60 && capacity <= 60) return false;
+        if (filterCapacity <= 60 && capacity != filterCapacity) return false;
+      }
+      if (filters['facilityStatus'] != null && filters['facilityStatus'] != 'Both') {
+        if (filters['facilityStatus'] == 'Available' && row['Availability'] != 'Yes') return false;
+        if (filters['facilityStatus'] == 'Not Available' && row['Availability'] != 'Not Available') return false;
+      }
+      if (filters['facilityType'] != null) {
+        bool isSeminarHall = row['Room Number/Name']?.toLowerCase().contains('seminar') ?? false;
+        if (filters['facilityType'] == 'Seminar Hall' && !isSeminarHall) return false;
+        if (filters['facilityType'] == 'Class Room' && isSeminarHall) return false;
+      }
+      return true;
+    }).toList();
   }
 
+  List<Map<String, String>> data = [
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Seminar Hall 1",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Seminar Hall 2",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Seminar Hall 3",
+      "Attendee Capacity": "100",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Atrium L",
+      "Attendee Capacity": "50",
+      "Does it include a projector and AV setup?": "No",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "Ground Floor",
+      "Room Number/Name": "Atrium R",
+      "Attendee Capacity": "50",
+      "Does it include a projector and AV setup?": "No",
+      "Availability": "Yes",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1A",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1B",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1C",
+      "Attendee Capacity": "40",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1D",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+    {
+      "Building/Block": "JSW ACADEMIC BLOCK",
+      "Floor": "First Floor",
+      "Room Number/Name": "Classroom 1E",
+      "Attendee Capacity": "35",
+      "Does it include a projector and AV setup?": "Yes",
+      "Availability": "Not Available",
+    },
+  ];
+
   @override
-  Widget build(BuildContext context) {
-    return PaginatedDataTable(
-      sortColumnIndex: _columnIndex,
-      sortAscending: _columnAscending,
-      columns: <DataColumn>[
-        DataColumn(
-          label: const Text('Episode'),
-          onSort: _sort,
-        ),
-        DataColumn(
-          label: const Text('Title'),
-          onSort: _sort,
-        ),
-        DataColumn(
-          label: const Text('Director'),
-          onSort: _sort,
-        ),
-        DataColumn(
-          label: const Text('Writer(s)'),
-          onSort: _sort,
-        ),
-        DataColumn(
-          label: const Text('Air Date'),
-          onSort: _sort,
-        ),
+  DataRow? getRow(int index) {
+    if (index >= filteredData.length) return null;
+    final row = filteredData[index];
+    return DataRow(
+      
+      cells: [
+        DataCell(Text(data[index]['Building/Block'] ?? '')),
+        DataCell(Text(data[index]['Floor'] ?? '')),
+        DataCell(Text(data[index]['Room Number/Name'] ?? '')),
+        DataCell(Text(data[index]['Attendee Capacity'] ?? '')),
+        DataCell(Text(data[index]['Does it include a projector and AV setup?'] ?? '')),
+        DataCell(Text(data[index]['Availability'] ?? '')),
+        DataCell(Center(
+          child: TextButton(
+            // onPressed: () => _showSelectDialog(index),
+            onPressed: () {
+              // Pass the room number to BookingDetailsPage
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookingDetailsPage(
+                    roomNumber: row['Room Number/Name'] ?? '',
+                  ),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(50, 20),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: const Text('Select'),
+          ),
+        )),
       ],
-      source: dataSource,
+      color: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+        return Colors.white;
+      }),
     );
   }
+
+  // void _showSelectDialog(int index) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return TimeSlotPopup(
+  //         date: DateTime.now(),
+  //         timeSlots: const [
+  //           '08:30 AM', '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM',
+  //           '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM', '02:00 PM',
+  //           '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:00 PM',
+  //           '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM', '08:00 PM',
+  //           '08:30 PM', '09:00 PM', '09:30 PM', '10:00 PM', '10:30 PM', '11:00 PM',
+  //         ],
+  //         bookedSlots: const ['08:30 AM', '09:00 AM', '09:30 AM','05:30 PM', '06:00 PM'], 
+  //       );
+  //     },
+  //   );
+  // }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => 0;
 }
 
-final List<List<Comparable<Object>>> episodes = <List<Comparable<Object>>>[
-  <Comparable<Object>>[
-    1,
-    1,
-    1,
-    'Strange New Worlds',
-    'Akiva Goldsman',
-    'Akiva Goldsman, Alex Kurtzman, Jenny Lumet',
-    DateTime(2022, 5, 5),
-  ],
-  <Comparable<Object>>[
-    2,
-    1,
-    2,
-    'Children of the Comet',
-    'Maja Vrvilo',
-    'Henry Alonso Myers, Sarah Tarkoff',
-    DateTime(2022, 5, 12),
-  ],
-  <Comparable<Object>>[
-    3,
-    1,
-    3,
-    'Ghosts of Illyria',
-    'Leslie Hope',
-    'Akela Cooper, Bill Wolkoff',
-    DateTime(2022, 5, 19),
-  ],
-  <Comparable<Object>>[
-    4,
-    1,
-    4,
-    'Memento Mori',
-    'Dan Liu',
-    'Davy Perez, Beau DeMayo',
-    DateTime(2022, 5, 26),
-  ],
-  <Comparable<Object>>[
-    5,
-    1,
-    5,
-    'Spock Amok',
-    'Rachel Leiterman',
-    'Henry Alonso Myers, Robin Wasserman',
-    DateTime(2022, 6, 2),
-  ],
-  <Comparable<Object>>[
-    6,
-    1,
-    6,
-    'Lift Us Where Suffering Cannot Reach',
-    'Andi Armaganian',
-    'Robin Wasserman, Bill Wolkoff',
-    DateTime(2022, 6, 9),
-  ],
-  <Comparable<Object>>[
-    7,
-    1,
-    7,
-    'The Serene Squall',
-    'Sydney Freeland',
-    'Beau DeMayo, Sarah Tarkoff',
-    DateTime(2022, 6, 16),
-  ],
-  <Comparable<Object>>[
-    8,
-    1,
-    8,
-    'The Elysian Kingdom',
-    'Amanda Row',
-    'Akela Cooper, Onitra Johnson',
-    DateTime(2022, 6, 23),
-  ],
-  <Comparable<Object>>[
-    9,
-    1,
-    9,
-    'All Those Who Wander',
-    'Christopher J. Byrne',
-    'Davy Perez',
-    DateTime(2022, 6, 30),
-  ],
-  <Comparable<Object>>[
-    10,
-    2,
-    10,
-    'A Quality of Mercy',
-    'Chris Fisher',
-    'Henry Alonso Myers, Akiva Goldsman',
-    DateTime(2022, 7, 7),
-  ],
-  <Comparable<Object>>[
-    11,
-    2,
-    1,
-    'The Broken Circle',
-    'Chris Fisher',
-    'Henry Alonso Myers, Akiva Goldsman',
-    DateTime(2023, 6, 15),
-  ],
-  <Comparable<Object>>[
-    12,
-    2,
-    2,
-    'Ad Astra per Aspera',
-    'Valerie Weiss',
-    'Dana Horgan',
-    DateTime(2023, 6, 22),
-  ],
-  <Comparable<Object>>[
-    13,
-    2,
-    3,
-    'Tomorrow and Tomorrow and Tomorrow',
-    'Amanda Row',
-    'David Reed',
-    DateTime(2023, 6, 29),
-  ],
-  <Comparable<Object>>[
-    14,
-    2,
-    4,
-    'Among the Lotus Eaters',
-    'Eduardo SÃ¡nchez',
-    'Kirsten Beyer, Davy Perez',
-    DateTime(2023, 7, 6),
-  ],
-  <Comparable<Object>>[
-    15,
-    2,
-    5,
-    'Charades',
-    'Jordan Canning',
-    'Kathryn Lyn, Henry Alonso Myers',
-    DateTime(2023, 7, 13),
-  ],
-  <Comparable<Object>>[
-    16,
-    2,
-    6,
-    'Lost in Translation',
-    'Dan Liu',
-    'Onitra Johnson, David Reed',
-    DateTime(2023, 7, 20),
-  ],
-  <Comparable<Object>>[
-    17,
-    2,
-    7,
-    'Those Old Scientists',
-    'Jonathan Frakes',
-    'Kathryn Lyn, Bill Wolkoff',
-    DateTime(2023, 7, 22),
-  ],
-  <Comparable<Object>>[
-    18,
-    2,
-    8,
-    'Under the Cloak of War',
-    '',
-    'Davy Perez',
-    DateTime(2023, 7, 27),
-  ],
-  <Comparable<Object>>[
-    19,
-    2,
-    9,
-    'Subspace Rhapsody',
-    '',
-    'Dana Horgan, Bill Wolkoff',
-    DateTime(2023, 8, 3),
-  ],
-  <Comparable<Object>>[
-    20,
-    2,
-    10,
-    'Hegemony',
-    '',
-    'Henry Alonso Myers',
-    DateTime(2023, 8, 10),
-  ],
-];
